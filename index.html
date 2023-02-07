@@ -116,9 +116,10 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Birthdate</th>
             <th>Email</th>
             <th>Password</th>
+            <th>Dob</th>
+            <th>Accepted terms?</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -127,40 +128,38 @@
     <script>
 
      // Get data from local storage
-let userData = JSON.parse(localStorage.getItem("user"));
+    let userData = JSON.parse(localStorage.getItem("user"));
 
-// Check if the data exists and is an array
-if (userData && Array.isArray(userData)) {
-  // Get the table element
-  let table = document.getElementById("registrationTable");
+    // Check if the data exists and is an array
+    if (userData && Array.isArray(userData)) {
+    // Get the table element
+    let table = document.getElementById("registrationTable");
 
-  // Loop through the userData array
-  for (let i = 0; i < userData.length; i++) {
+    // Loop through the userData array
+    for (let i = 0; i < userData.length; i++) {
     // Create a new row
     let row = table.insertRow();
 
     // Insert cells for the name, dob, email, and password
     let nameCell = row.insertCell(0);
-    let dobCell = row.insertCell(1);
-    let emailCell = row.insertCell(2);
-    let passwordCell = row.insertCell(3);
+    let emailCell = row.insertCell(1);
+    let passwordCell = row.insertCell(2);
+    let dobCell = row.insertCell(3);
+    let t_and_cCell = row.insertCell(4);
 
     // Set the cell values
     nameCell.innerHTML = userData[i].name;
-    dobCell.innerHTML = userData[i].dob;
     emailCell.innerHTML = userData[i].email;
     passwordCell.innerHTML = userData[i].password;
-    console.log("erroe")
+    dobCell.innerHTML = userData[i].dob;
+    t_and_cCell.innerHTML = userData[i].Accepted_terms;
+    console.log("error")
   }}
-// } else {
-//   console.error("No data found in local storage or data is not in expected format");
-// }
+    // } else {
+    //   console.error("No data found in local storage or data is not in expected format");
+    // }
 
-
-
-      
-
-      function validate(event) {
+    function validate(event) {
         event.preventDefault();
 
         // birthdate calculation
@@ -171,6 +170,7 @@ if (userData && Array.isArray(userData)) {
         const errorMessage = document.getElementById("errorMessage");
         const table = document.querySelector("#registrationTable tbody");
         const checkbox = document.getElementById("checkbox");
+        
 
 
       //   const checkAge=()=> {
@@ -246,10 +246,9 @@ if (userData && Array.isArray(userData)) {
         }
 
         if (checkbox.checked) {
-          //pass on next line
+          checkbox_status="accepted terms"
         } else {
-          alert("accept all terms and condition first ");
-          isValid = false;
+          checkbox_status="not accepted terms"
         }
 
         if (isValid) {
@@ -261,9 +260,10 @@ if (userData && Array.isArray(userData)) {
           // Add the new user data to the array
           data.push({
             name: name,
-            dob: dob,
             email: email,
             password: password,
+            dob: dob,
+            Accepted_terms:checkbox_status,
             // Add any other relevant data here
           });
 
@@ -276,9 +276,10 @@ if (userData && Array.isArray(userData)) {
           const row = document.createElement("tr");
           row.innerHTML = `
           <td>${name}</td>
-          <td>${dob}</td>
           <td>${email}</td>
           <td>${password}</td>
+          <td>${dob}</td>
+          <td>${checkbox_status}</td>
           `;
           table.appendChild(row);
 
